@@ -2,7 +2,7 @@
 Things which are very general or don't fit into any of the existing groups.
 """
 
-import primes
+from . import primes
 
 
 def euler_totient(n: int):
