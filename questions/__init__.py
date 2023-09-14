@@ -23,3 +23,6 @@ __all__ = [
 
 # Now when we import everything, those modules will be imported:
 from . import *  # NOQA
+
+# Create a list of the question numbers which have files by removing the Q and turning the rest into an integer:
+QUESTION_NUMBERS = [int(module[1:]) for module in __all__]
