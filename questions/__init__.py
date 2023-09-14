@@ -11,10 +11,11 @@ import re
 
 # First we create a list of all files in the same directory as this __init__ file which end in .py:
 modules = glob.glob(join(dirname(__file__), "*.py"))
+
 # Then we assign the list of all those file names, without the .py suffix, which:
-# a) are actually files
-# b) are not this file
-# c) have names of the form Q{n}.py, where n is an integer
+#   a) are actually files
+#   b) are not this file
+#   c) have names of the form Q{n}.py, where n is an integer
 # to the __all__ variable:
 pattern = r'Q(\d+)\.py'
 __all__ = [
