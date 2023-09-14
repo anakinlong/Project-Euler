@@ -8,6 +8,9 @@ Find the sum of all the multiples of 3 or 5 below 1000.
 from typing import Iterable
 
 
+ANSWER = 233168
+
+
 def sum_of_multiples(factors: list[int], values: Iterable[int]) -> int:
     """
     Find the sum of all the integers in values which are multiples of any of the integers in factors.
@@ -24,4 +27,6 @@ def sum_of_multiples(factors: list[int], values: Iterable[int]) -> int:
     return sum([value for value, is_multiple in value_to_is_multiple.items() if is_multiple])
 
 
-ANSWER = sum_of_multiples([3, 5], range(1, 1000))
+if __name__ == "__main__":
+
+    answer = sum_of_multiples([3, 5], range(1, 1000))
