@@ -10,6 +10,7 @@ from . import input_processing  # NOQA
 from . import primes  # NOQA
 from . import pandigital  # NOQA
 from . import polygonal_numbers  # NOQA
+from . import profiling  # NOQA
 
 # Things which don't fit into a group:
 from . import general  # NOQA
