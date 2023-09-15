@@ -31,8 +31,7 @@ def all_answers() -> dict[int: int]:
     """
     Return a dictionary mapping all answered questions to their answers.
     """
-    # We ignore question 0, since that is just a template file:
-    return {number: answer(number) for number in questions.QUESTION_NUMBERS if number != 0}
+    return {number: answer(number) for number in questions.QUESTION_NUMBERS}
 
 
 if __name__ == "__main__":
