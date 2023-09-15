@@ -4,26 +4,23 @@ A code profiler.
 
 from time import monotonic
 from functools import wraps
-import logging
 import inspect
 from typing import Any, Callable
 
 
 def profileit(
-    template: str = "`{_function}` completed in {_time}.",
-    level: int = logging.INFO,
+    template: str = "`{_function}`\nCompleted in {_time}.",
     init_template: str | None = None,
     log_result: bool = False,
 ):
     """
     A code profiler - this times the execution of the code it wraps.
 
-    :param template: the template for the message which is logged once the function has finished running.
+    :param template: the template for the message which is printed once the function has finished running.
     Defaults to `{_function} completed in {_time}.`.
-    :param level: the logging level of the logs this decorator produces. Defaults to INFO.
-    :param init_template: if provided, a message of this format will be logged when execution of the function begins.
+    :param init_template: if provided, a message of this format will be printed when execution of the function begins.
     Defaults to None.
-    :param log_result: whether or not to log the return value of the function. Defaults to False.
+    :param log_result: whether or not to print the return value of the function. Defaults to False.
     """
     def decorator(func: Callable[[Any], Any]):
         # Get the signature of the decorated function:
@@ -44,9 +41,8 @@ def profileit(
             try:
                 # If an init_template has been given, print a message using it:
                 if init_template:
-                    logging.getLogger(func.__module__).log(
-                        level,
-                        "profiling: "
+                    print(
+                        "Begin profiling: "
                         + init_template.format(
                             # Pass the arguments in:
                             *func_bound.args,
@@ -69,19 +65,19 @@ def profileit(
             # Before the result is returned or error is raised:
             finally:
                 if not func_failed:
-                    logging.getLogger(func.__module__).log(
-                        level,
-                        "profiling: "
+                    extra = f"\nResult: {result}" if log_result else ""
+                    print(
+                        "Finished profiling: "
                         + template.format(
                             # Pass the arguments in:
                             *func_bound.args,
                             **func_bound.kwargs,
                             # Profiling information:
                             _function=func.__name__,
-                            _time=f"{monotonic() - m:.2f}s",
+                            _time=f"{monotonic() - m:.10f}s",
                             _result=result,
-                        ),
-                        extra={"details": result} if log_result else {},
+                        )
+                        + extra,
                     )
 
         return wrapper
