@@ -2,7 +2,10 @@
 Question goes here
 """
 
-import lib
+try:
+    import lib
+except ModuleNotFoundError:
+    from questions import lib
 
 
 ANSWER = "Answer goes here"

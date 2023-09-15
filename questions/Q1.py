@@ -6,11 +6,15 @@ Find the sum of all the multiples of 3 or 5 below 1000.
 """
 
 from typing import Iterable
-
+try:
+    import lib
+except ModuleNotFoundError:
+    from questions import lib
 
 ANSWER = 233168
 
 
+@lib.profiling.profileit()
 def sum_of_multiples(factors: list[int], values: Iterable[int]) -> int:
     """
     Find the sum of all the integers in values which are multiples of any of the integers in factors.
