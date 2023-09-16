@@ -26,13 +26,15 @@ Find the thirteen adjacent digits in the 1000-digit number that have the greates
 What is the value of this product?
 """
 
+import math
+
 try:
     import lib
 except ModuleNotFoundError:
     from questions import lib
 
 
-ANSWER = "Answer goes here"
+ANSWER = 23514624000
 
 
 NUMBER_AS_STRING = """
@@ -58,24 +60,36 @@ NUMBER_AS_STRING = """
 71636269561882670428252483600823257530420752963450
 """
 
-NUMBER = int(NUMBER_AS_STRING.strip("\n"))
+NUMBER = int(NUMBER_AS_STRING.replace("\n", ""))
 
 
 @lib.profiling.profileit()
-def max_adjacent_product(number, adjacentCount):
-    maxProduct = 1
-    for i in range(0, (len(str(number)) - adjacentCount + 1)):
-        digits = []
-        productOfDigits = 1
-        for j in range(adjacentCount):
-            digits.append(int(str(number)[i+j]))
-        for k in digits:
-            productOfDigits *= k
-        if productOfDigits > maxProduct:
-            maxProduct = productOfDigits
-    print(maxProduct)
+def max_adjacent_product(number: int, adjacent_count: int) -> int:
+    """
+    Find the maximum adjacent product of strings of digits in a given integer.
+
+    :param number: the integer.
+    :param adjacent_count: the number of adjacent digits in each product.
+
+    :return: the maximum adjacent product.
+    """
+    # Keep track of the largest product we have found:
+    max_product = 0
+    n_digits = len(str(number))
+    number_as_string = str(number)
+    # Scan through the number and compute each adjacent product:
+    for i in range(0, n_digits - adjacent_count + 1):
+        # Compute the adjacent product of this set of digits:
+        digits_as_string = number_as_string[i: i + adjacent_count]
+        digits = [int(digit) for digit in digits_as_string]
+        product_of_digits = math.prod(digits)
+        # Set it as our max if it is the largest we have found so far:
+        if product_of_digits > max_product:
+            max_product = product_of_digits
+
+    return max_product
 
 
 if __name__ == '__main__':
 
-    max_adjacent_product(NUMBER, 13)
+    answer = max_adjacent_product(NUMBER, 13)
