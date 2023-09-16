@@ -11,7 +11,7 @@ from typing import Any, Callable
 def profileit(
     template: str = "`{_function}`\nCompleted in {_time}.",
     init_template: str | None = None,
-    log_result: bool = False,
+    log_result: bool = True,
     long_time: bool = False,
     decimal_places: int = 15,
 ):
@@ -22,7 +22,7 @@ def profileit(
     Defaults to `{_function} completed in {_time}.`.
     :param init_template: if provided, a message of this format will be printed when execution of the function begins.
     Defaults to None.
-    :param log_result: whether or not to print the return value of the function. Defaults to False.
+    :param log_result: whether or not to print the return value of the function. Defaults to True.
     :param long_time: whether of not the function we are profiling will take a long time. Defaults to False.
     :param decimal_places: how many decimal places to which to round the total time. Defaults to 15.
     """

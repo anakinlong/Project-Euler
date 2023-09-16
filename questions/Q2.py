@@ -76,7 +76,7 @@ def even_sum(numbers: list[int]) -> int:
     return total
 
 
-@lib.profiling.profileit(log_result=True)
+@lib.profiling.profileit()
 def even_fibonacci_sum(max_value: int) -> int:
     """
     Calculate the sum of all the even Fibonacci numbers that do not exceed the given limit.
