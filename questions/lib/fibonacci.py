@@ -35,3 +35,5 @@ def next_fibonacci(a_1: int, a_2: int) -> int:
     :return: the n-th value in the sequence.
     """
     return a_1 + a_2
+
+# TODO add a function to return the first n terms of the Fibonacci sequence
