@@ -8,8 +8,6 @@ By considering the terms in the Fibonacci sequence whose values do not exceed fo
 even-valued terms.
 """
 
-import numpy as np
-
 try:
     import lib
 except ModuleNotFoundError:
@@ -17,9 +15,6 @@ except ModuleNotFoundError:
 
 
 ANSWER = 4613732
-
-
-PHI = (1 + np.sqrt(5)) / 2
 
 
 def next_fibonacci(a_1: int, a_2: int) -> int:
@@ -34,7 +29,7 @@ def next_fibonacci(a_1: int, a_2: int) -> int:
     return a_1 + a_2
 
 
-def fibonacci_list_1(initial_values: tuple[int, int], max_value: int) -> list[int]:
+def fibonacci_list(initial_values: tuple[int, int], max_value: int) -> list[int]:
     """
     Return a list of Fibonacci values from 1 to the last value below a given inclusive maximum value.
 
@@ -66,37 +61,6 @@ def fibonacci_list_1(initial_values: tuple[int, int], max_value: int) -> list[in
     return fibonacci_values
 
 
-def nth_fibonacci(n: int) -> int:
-    """
-    Calculate the n-th term of the Fibonacci sequence.
-
-    :param n: which term from the sequence.
-
-    :return: the n-th term of the Fibonacci sequence.
-    """
-
-    return round((PHI ** n) / np.sqrt(5))
-
-
-def fibonacci_list_2(max_value: int) -> list[int]:
-    """
-    Return a list of Fibonacci values from 0 to the last value below a given inclusive maximum value.
-
-    :param max_value: the maximum allowed value in the list.
-
-    :return: a list of Fibonacci numbers.
-    """
-    # Calculate which Fibonacci number will exceed the limit:
-    max_n = round(np.log(max_value * np.sqrt(5)) / np.log(PHI)) + 1
-    fibonacci_values = [nth_fibonacci(n) for n in range(max_n)]
-
-    # Check whether the last value is actually below the limt, and remove if so:
-    if fibonacci_values[-1] > max_value:
-        fibonacci_values.pop(-1)
-
-    return fibonacci_values
-
-
 def even_sum(numbers: list[int]) -> int:
     """
     Return the sum of the even numbers in a given list.
@@ -113,7 +77,7 @@ def even_sum(numbers: list[int]) -> int:
 
 
 @lib.profiling.profileit(log_result=True)
-def even_fibonacci_sum_1(max_value: int) -> int:
+def even_fibonacci_sum(max_value: int) -> int:
     """
     Calculate the sum of all the even Fibonacci numbers that do not exceed the given limit.
 
@@ -121,28 +85,11 @@ def even_fibonacci_sum_1(max_value: int) -> int:
 
     :return: the sum of all the even Fibonacci numbers that do not exceed the given limit.
     """
-    fibonacci_list = fibonacci_list_1((0, 1), max_value)
+    fibonacci_numbers = fibonacci_list((0, 1), max_value)
 
-    return even_sum(fibonacci_list)
-
-
-@lib.profiling.profileit(log_result=True)
-def even_fibonacci_sum_2(max_value: int) -> int:
-    """
-    Calculate the sum of all the even Fibonacci numbers that do not exceed the given limit.
-
-    :param max_value: the maximum allowed value of the Fibonacci values we are summing.
-
-    :return: the sum of all the even Fibonacci numbers that do not exceed the given limit.
-    """
-    fibonacci_list = fibonacci_list_2(max_value)
-
-    return even_sum(fibonacci_list)
+    return even_sum(fibonacci_numbers)
 
 
 if __name__ == '__main__':
 
-    even_fibonacci_sum_1(4e20)
-    even_fibonacci_sum_2(4e20)
-
-    # I can't believe that 1 is considerably faster than 2!
+    answer = even_fibonacci_sum(4e6)
