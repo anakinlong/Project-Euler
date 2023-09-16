@@ -11,6 +11,12 @@ except ModuleNotFoundError:
 ANSWER = "Answer goes here"
 
 
+@lib.profiling.profileit()
+def main() -> int:
+    """
+    """
+
+
 if __name__ == "__main__":
 
-    answer = 1
+    answer = main()
