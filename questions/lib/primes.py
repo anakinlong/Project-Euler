@@ -79,6 +79,8 @@ def prime_factors(n: int) -> list[int]:
         # Don't increment k in case n / k is also divisible by k:
         else:
             n /= k
+            # Make sure n is an integer in case of floating point inaccuracy:
+            n = round(n)
             factors.append(k)
 
     # If n is still greater than 1 it must be prime, so add to the list:
