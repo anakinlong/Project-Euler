@@ -6,6 +6,7 @@ Useful functions/classes/constants etc. which can be used for multiple questions
 
 # Things which can be grouped nicely:
 from . import factors  # NOQA
+from . import fibonacci  # NOQA
 from . import input_processing  # NOQA
 from . import primes  # NOQA
 from . import pandigital  # NOQA
