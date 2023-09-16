@@ -16,20 +16,10 @@ except ModuleNotFoundError:
     from questions import lib
 
 
-ANSWER = "Answer goes here"
+ANSWER = 4613732
 
 
-def nth_fibonacci(n: int) -> int:
-    """
-    Calculate the n-th term of the Fibonacci sequence.
-
-    :param n: which term from the sequence.
-
-    :return: the n-th term of the Fibonacci sequence.
-    """
-    PHI = (1 + np.sqrt(5)) / 2
-
-    return round((PHI ** n) / np.sqrt(5))
+PHI = (1 + np.sqrt(5)) / 2
 
 
 def next_fibonacci(a_1: int, a_2: int) -> int:
@@ -44,7 +34,7 @@ def next_fibonacci(a_1: int, a_2: int) -> int:
     return a_1 + a_2
 
 
-def fibonacci_list(initial_values: tuple[int, int], max_value: int) -> list[int]:
+def fibonacci_list_1(initial_values: tuple[int, int], max_value: int) -> list[int]:
     """
     Return a list of Fibonacci values from 1 to the last value below a given inclusive maximum value.
 
@@ -58,6 +48,7 @@ def fibonacci_list(initial_values: tuple[int, int], max_value: int) -> list[int]
     fibonacci_values = [a_1, a_2]
 
     # Add the next Fibonacci number to the sequence if it does not exceed our maximum value:
+    # TODO use something better than a list since appending is slow
     exceeded = False
     next_fibonacci_number = next_fibonacci(a_1, a_2)
     while not exceeded:
@@ -75,29 +66,83 @@ def fibonacci_list(initial_values: tuple[int, int], max_value: int) -> list[int]
     return fibonacci_values
 
 
-def Fibonacci(maxIncl):
-    numbers = [1, 2]
-    i = 2
-    value = 2
-    while value <= maxIncl:
-        value = numbers[i-1] + numbers[i-2]
-        numbers.append(value)
-        i = i + 1
-    numbers.pop(-1)
-    return(numbers)
+def nth_fibonacci(n: int) -> int:
+    """
+    Calculate the n-th term of the Fibonacci sequence.
+
+    :param n: which term from the sequence.
+
+    :return: the n-th term of the Fibonacci sequence.
+    """
+
+    return round((PHI ** n) / np.sqrt(5))
 
 
-def EvenFibonacciSum(maxIncl):
-    numbers = Fibonacci(maxIncl)
+def fibonacci_list_2(max_value: int) -> list[int]:
+    """
+    Return a list of Fibonacci values from 0 to the last value below a given inclusive maximum value.
 
-    sumOfNumbers = 0
-    for i in numbers:
-        if (i % 2 == 0):
-            sumOfNumbers = sumOfNumbers + i
+    :param max_value: the maximum allowed value in the list.
 
-    print(sumOfNumbers)
+    :return: a list of Fibonacci numbers.
+    """
+    # Calculate which Fibonacci number will exceed the limit:
+    max_n = round(np.log(max_value * np.sqrt(5)) / np.log(PHI)) + 1
+    fibonacci_values = [nth_fibonacci(n) for n in range(max_n)]
+
+    # Check whether the last value is actually below the limt, and remove if so:
+    if fibonacci_values[-1] > max_value:
+        fibonacci_values.pop(-1)
+
+    return fibonacci_values
+
+
+def even_sum(numbers: list[int]) -> int:
+    """
+    Return the sum of the even numbers in a given list.
+
+    :return: the sum of the even numbers in a given list.
+    """
+    # Loop through the numbers, decide if each one is even, and add to the total if so:
+    total = 0
+    for n in numbers:
+        if n % 2 == 0:
+            total += n
+
+    return total
+
+
+@lib.profiling.profileit(log_result=True)
+def even_fibonacci_sum_1(max_value: int) -> int:
+    """
+    Calculate the sum of all the even Fibonacci numbers that do not exceed the given limit.
+
+    :param max_value: the maximum allowed value of the Fibonacci values we are summing.
+
+    :return: the sum of all the even Fibonacci numbers that do not exceed the given limit.
+    """
+    fibonacci_list = fibonacci_list_1((0, 1), max_value)
+
+    return even_sum(fibonacci_list)
+
+
+@lib.profiling.profileit(log_result=True)
+def even_fibonacci_sum_2(max_value: int) -> int:
+    """
+    Calculate the sum of all the even Fibonacci numbers that do not exceed the given limit.
+
+    :param max_value: the maximum allowed value of the Fibonacci values we are summing.
+
+    :return: the sum of all the even Fibonacci numbers that do not exceed the given limit.
+    """
+    fibonacci_list = fibonacci_list_2(max_value)
+
+    return even_sum(fibonacci_list)
 
 
 if __name__ == '__main__':
 
-    print([nth_fibonacci(n) for n in range(20)])
+    even_fibonacci_sum_1(4e20)
+    even_fibonacci_sum_2(4e20)
+
+    # I can't believe that 1 is considerably faster than 2!
