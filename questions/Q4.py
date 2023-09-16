@@ -11,20 +11,43 @@ except ModuleNotFoundError:
     from questions import lib
 
 
-ANSWER = "Answer goes here"
+ANSWER = 906609
 
 
-def palindromes(minIncl, maxExcl):
+def is_palindrome(n: int) -> bool:
+    """
+    Decide whether an integer is a palindrome; that is, whether it reads the same left-ro-right and right-to-left.
+
+    :param n: an integer.
+
+    :return: True if n is a palindrome, otherwise False.
+    """
+    # Turn it into a string and compare to its reversed version:
+    return str(n) == str(n)[::-1]
+
+
+@lib.profiling.profileit()
+def palindromes(min_inclusive: int, max_exclusive: int) -> int:
+    """
+    Find the largest palindrome made from the product of two integers in the interval [min_inclusive, max_exclusive).
+
+    :param min_inclusive: the minimum value of the integers.
+    :param min_inclusive: the minimum value of the integers.
+
+    :return: the palindrome with the largest value.
+    """
+    # TODO use something better than a list
     palindromes = []
-    for i in range(minIncl, maxExcl):
-        for j in range(minIncl, maxExcl):
+    # TODO this is very slow, and wouldn't finish in a reasonable time for much larger problems
+    for i in range(min_inclusive, max_exclusive):
+        for j in range(min_inclusive, max_exclusive):
             value = i * j
-            if (str(value) == str(value)[::-1]):
+            if is_palindrome(value):
                 palindromes.append(value)
-    print(palindromes)
-    print(max(palindromes))
+
+    return max(palindromes)
 
 
 if __name__ == '__main__':
 
-    palindromes(100, 1000)
+    answer = palindromes(100, 1000)
