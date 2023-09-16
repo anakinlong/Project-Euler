@@ -1,30 +1,62 @@
-'By listing the first six prime numbers: 2, 3, 5, 7, 11, and 13, we can see that the 6th prime is 13.'
-'What is the 10 001st prime number?'
-import numpy
+"""
+By listing the first six prime numbers: 2, 3, 5, 7, 11, and 13, we can see that the 6th prime is 13.
 
-def primeFactors(number):
-    i = 2
-    factors = []
-    while i <= numpy.sqrt(number):
-        if (number % i):
-            i = i + 1
-        else:
-            number = number / i
-            factors.append(i)
-    if number > 1:
-        factors.append(number)
-    return(factors)
+What is the 10,001-st prime number?
+"""
 
-def nthPrime(n):
-    primes = []
-    i = 1
-    count = 0
+try:
+    import lib
+except ModuleNotFoundError:
+    from questions import lib
+
+
+ANSWER = 104743
+
+
+def is_prime(n: int) -> bool:
+    """
+    Checks if an integer is prime.
+
+    :param n: an integer.
+
+    :return: True if n is prime, otherwise False.
+    """
+    # Check whether n is positive:
+    if n <= 1:
+        return False
+    # Check whether n is 2:
+    if n == 2:
+        return True
+    # Check whether n is even (but not 2):
+    elif n % 2 == 0:
+        return False
+    # Check whether n is divisible by any odd numbers less than its square root:
+    else:
+        for k in range(3, int(n ** (1/2)) + 1, 2):
+            if n % k == 0:
+                return False
+        return True
+
+
+@lib.profiling.profileit()
+def nth_prime(n: int) -> int:
+    """
+    Find the n-th prime number.
+
+    :param n: an integer.
+
+    :return: the n-th prime.
+    """
+    i = 3
+    count = 1
     while count < n:
-        if (len(primeFactors(i)) == 1):
-            primes.append(i)
+        if is_prime(i):
             count += 1
-        i += 1
-    print(primes)
+        i += 2
+
+    return i - 2
+
 
 if __name__ == '__main__':
-    nthPrime(10001)
+
+    answer = nth_prime(10001)
