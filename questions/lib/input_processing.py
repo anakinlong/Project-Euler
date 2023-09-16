@@ -3,21 +3,20 @@ Things related to formatting/processing the inputs from Project Euler.
 """
 
 
-def pyramid_to_array(string_pyramid: str) -> list[list[int]]:
+def grid_to_array(string_grid: str) -> list[list[int]]:
     """
-    Take the string version of a number pyramid/triangle and format it such that each row is a list of numbers, all in
-    one bigger list.
+    Take a string of numbers and convert it to a list of lists.
 
-    :param string_pyramid: the pyramid as a string.
+    :param string_grid: the grid as a string.
 
-    :return: the pyramid formatted as a list of lists.
+    :return: the string_grid formatted as a list of lists.
     """
     # Remove the leading and trailing newline characters:
-    string_pyramid = string_pyramid.lstrip("\n")
-    string_pyramid = string_pyramid.rstrip("\n")
+    string_grid = string_grid.lstrip("\n")
+    string_grid = string_grid.rstrip("\n")
 
     # Split the whole thing by the newline character, so we have a list of strings:
-    split_by_row = string_pyramid.split("\n")
+    split_by_row = string_grid.split("\n")
 
     # Split each row by the space character, so we have a list of lists of strings, then convert each number to an int:
     return [list(map(int, row.split(" "))) for row in split_by_row]
