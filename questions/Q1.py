@@ -14,7 +14,7 @@ except ModuleNotFoundError:
 ANSWER = 233168
 
 
-@lib.profiling.profileit(log_result=True)
+@lib.profiling.profileit()
 def sum_of_multiples(factors: list[int], values: Iterable[int]) -> int:
     """
     Find the sum of all the integers in values which are multiples of any of the integers in factors.

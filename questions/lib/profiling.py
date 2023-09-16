@@ -2,7 +2,7 @@
 A code profiler.
 """
 
-from time import monotonic
+from time import monotonic, perf_counter
 from functools import wraps
 import inspect
 from typing import Any, Callable
@@ -11,7 +11,9 @@ from typing import Any, Callable
 def profileit(
     template: str = "`{_function}`\nCompleted in {_time}.",
     init_template: str | None = None,
-    log_result: bool = False,
+    log_result: bool = True,
+    long_time: bool = False,
+    decimal_places: int = 15,
 ):
     """
     A code profiler - this times the execution of the code it wraps.
@@ -20,8 +22,14 @@ def profileit(
     Defaults to `{_function} completed in {_time}.`.
     :param init_template: if provided, a message of this format will be printed when execution of the function begins.
     Defaults to None.
-    :param log_result: whether or not to print the return value of the function. Defaults to False.
+    :param log_result: whether or not to print the return value of the function. Defaults to True.
+    :param long_time: whether of not the function we are profiling will take a long time. Defaults to False.
+    :param decimal_places: how many decimal places to which to round the total time. Defaults to 15.
     """
+    # Use long_time to decide which timer to use to calculate the total time.
+    # monotonic is better for long periods, perf_counter is better for short:
+    current_time = monotonic if long_time else perf_counter
+
     def decorator(func: Callable[[Any], Any]):
         # Get the signature of the decorated function:
         signature = inspect.signature(func)
@@ -29,7 +37,7 @@ def profileit(
         @wraps(func)
         def wrapper(*args, **kwargs) -> Any:
             # Start the clock:
-            m = monotonic()
+            start_time = current_time()
             func_failed = False
 
             # Inspect the function being called with the args passed:
@@ -65,6 +73,7 @@ def profileit(
             # Before the result is returned or error is raised:
             finally:
                 if not func_failed:
+                    total_time = round(current_time() - start_time, decimal_places)
                     extra = f"\nResult: {result}" if log_result else ""
                     print(
                         "Finished profiling: "
@@ -74,7 +83,7 @@ def profileit(
                             **func_bound.kwargs,
                             # Profiling information:
                             _function=func.__name__,
-                            _time=f"{monotonic() - m:.10f}s",
+                            _time=f"{total_time}s",
                             _result=result,
                         )
                         + extra,
