@@ -40,6 +40,8 @@ import questions
 questions.Q1.sum_of_multiples([3, 5], range(1, 1000))
 ```
 
+The names of these modules are currently compiled at run-time, so won't show up on any inteli-sense IDE extensions like you may expect them to.
+
 Alternatively, you can get the question text, answer, or any additional explanation from any answered question by using the `question`, `answer`, and `explanation` functions that are defined in this script. `all_answers` returns a dictionary mapping each question number to its answer.
 
 ## lib
