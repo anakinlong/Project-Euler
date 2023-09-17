@@ -31,10 +31,11 @@ def all_answers() -> dict[int: int]:
     """
     Return a dictionary mapping all answered questions to their answers.
     """
-    return {number: answer(number) for number in questions.QUESTION_NUMBERS}
+    return {number: answer(number) for number in sorted(questions.QUESTION_NUMBERS)}
 
 
 if __name__ == "__main__":
 
+    print(question(1))
     print(answer(1))
     print(all_answers())
