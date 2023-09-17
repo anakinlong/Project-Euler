@@ -49,7 +49,7 @@ def find_chain_length(n: int) -> int:
     :return: the length of the Collatz chain starting at the n.
     """
     length = 1
-    # Step through the chain and add to the length as long as the terms are greater than 1:
+    # Calculate the next term in the chain and add 1 to the length of that term's chain:
     if n > 1:
         n = next_collatz_term(n)
         length += find_chain_length(n)
