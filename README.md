@@ -3,6 +3,8 @@
 
 My python code to answer the questions on https://projecteuler.net
 
+I am aiming mainly for extremely readable code. I try to make my solutions relatively well-optimised, although not to the effect of making the code unreadable or unable to be generalised or applied to other cases.
+
 # System Requirements
 
 1. Python version 3.11.0
