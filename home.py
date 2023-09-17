@@ -3,7 +3,31 @@ Interact with all the code in this repository.
 """
 
 import importlib
+from typing import Any
+
 import questions
+
+
+def retrieve_attribute_from_question_module(question_number: int, attribute: str) -> Any | None:
+    """
+    Return the value of an attribute of a particular question module.
+
+    :param question_number: the integer question number.
+    :param attribute: the name of the attribute
+
+    :return: the value of the attribute from the corresponding question module. If it doesn't exist, then None.
+    """
+    # Attempt to find the module containing the code for this question:
+    module_name = f"Q{str(question_number)}"
+    if module_name not in questions.__all__:
+        raise ValueError(
+            f"Could not find associated module name '{module_name}' for question '{question_number}'."
+        )
+
+    # Attempt to find the attribute in the given module:
+    module = importlib.import_module("." + module_name, "questions")
+
+    return getattr(module, attribute, None)
 
 
 def question(question_number: int) -> str | None:
@@ -14,17 +38,7 @@ def question(question_number: int) -> str | None:
 
     :return: the __doc__ attribute from the corresponding question module. If it doesn't exist, then None.
     """
-    # Attempt to find the module containing the code for this question:
-    module_name = f"Q{str(question_number)}"
-    if module_name not in questions.__all__:
-        raise ValueError(
-            f"Could not find associated module name '{module_name}' for question '{question_number}'."
-        )
-
-    # Attempt to find the __doc__ attribute in the given module:
-    module = importlib.import_module("." + module_name, "questions")
-
-    return getattr(module, "__doc__", None)
+    return retrieve_attribute_from_question_module(question_number, "__doc__")
 
 
 def answer(question_number: int) -> int | None:
@@ -35,17 +49,7 @@ def answer(question_number: int) -> int | None:
 
     :return: the `ANSWER` constant from the corresponding question module. If it doesn't exist, then None.
     """
-    # Attempt to find the module containing the code for this question:
-    module_name = f"Q{str(question_number)}"
-    if module_name not in questions.__all__:
-        raise ValueError(
-            f"Could not find associated module name '{module_name}' for question '{question_number}'."
-        )
-
-    # Attempt to find the ANSWER constant in the given module:
-    module = importlib.import_module("." + module_name, "questions")
-
-    return getattr(module, "ANSWER", None)
+    return retrieve_attribute_from_question_module(question_number, "ANSWER")
 
 
 def all_answers() -> dict[int: int]:
