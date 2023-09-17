@@ -19,10 +19,10 @@ def euler_totient(n: int):
     product = n
 
     # Then for each prime factor p of n, we multiply our product by 1 - (1 / p):
-    for i in primes.prime_factors(n):
+    for i in set(primes.prime_factors(n)):
         product *= 1 - (1 / i)
 
-    return product
+    return int(product)
 
 
 def sum_of_digits(n: int) -> int:
