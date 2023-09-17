@@ -28,19 +28,17 @@ pip install -r requirements.txt
 
 # Running the Code
 
-The code for each question is in the `questions` directory. These files can be run directly, or you can interact with all the question code from `home.py`.
+The code for each question is its own file in the `questions` library. These files can be run directly, or you can interact with all the question code from `home.py`.
 
 ## home.py
 
-`home.py` is a script in which you can directly interact with all the code I have written for the questions I have answered. The code for a each question is located in its own module `Q{n}`, where `n` is the question number. For example, to access the functions used in question 1:
+`home.py` is a script in which you can directly interact with all the code I have written for the questions I have answered. The code for a each question is located in its own module `Q{n}` within the `questions` library, where `n` is the question number. For example, to access the functions used in question 1:
 
 ```python
 import questions
 
 questions.Q1.sum_of_multiples([3, 5], range(1, 1000))
 ```
-
-
 
 ## lib
 
