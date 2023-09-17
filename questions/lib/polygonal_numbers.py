@@ -13,7 +13,7 @@ def triangle_number(n: int) -> int:
 
     :return: the n-th triangle number.
     """
-    return n * (n + 1) / 2
+    return int(n * (n + 1) / 2)
 
 
 def square_number(n: int) -> int:
@@ -24,7 +24,7 @@ def square_number(n: int) -> int:
 
     :return: the n-th square number.
     """
-    return n ** 2
+    return int(n ** 2)
 
 
 def pentagonal_number(n: int) -> int:
@@ -35,7 +35,7 @@ def pentagonal_number(n: int) -> int:
 
     :return: the n-th pentagonal number.
     """
-    return n * (3 * n - 1) / 2
+    return int(n * (3 * n - 1) / 2)
 
 
 def hexagonal_number(n: int) -> int:
@@ -46,7 +46,7 @@ def hexagonal_number(n: int) -> int:
 
     :return: the n-th hexagonal number.
     """
-    return n * (2 * n - 1)
+    return int(n * (2 * n - 1))
 
 
 def first_n_polygonal_numbers(polygonal_number: Callable[[int], int]) -> Callable[[int], list[int]]:

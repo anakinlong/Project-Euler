@@ -52,4 +52,4 @@ def lowest_common_multiple(numbers: list[int]) -> int:
 
 if __name__ == '__main__':
 
-    lowest_common_multiple(range(1, 21))
+    answer = lowest_common_multiple(range(1, 21))
