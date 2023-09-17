@@ -1,7 +1,20 @@
+"""
+
+"""
 '''Considering quadratics of the form n^2 + an + b, where |a|<1000 and |b|<=1000,
 find the product of the coefficients, a and b, 
 for the quadratic expression that produces the maximum number of primes for consecutive values of n, starting with n=0.'''
+
 import numpy
+
+try:
+    import lib
+except ModuleNotFoundError:
+    from questions import lib
+
+
+ANSWER = "Answer goes here"
+
 
 def isPrime(n):
     if n <= 1:
@@ -16,6 +29,7 @@ def isPrime(n):
                 return False
         return True
 
+
 def nPrimesProduced(a, b):
     end = False
     n = 0
@@ -28,6 +42,8 @@ def nPrimesProduced(a, b):
             end = True
     return run
 
+
+@lib.profiling.profileit()
 def coefficients(aMin, aMax, bMin, bMax):
     longestRun = 0
     bestCoefficients = [0, 0]
@@ -39,7 +55,7 @@ def coefficients(aMin, aMax, bMin, bMax):
                     longestRun = nPrimesProduced(a, b)
     print(longestRun, bestCoefficients)
 
+
 if __name__ == '__main__':
-    #print(isPrime(1601))
-    #print(nPrimesProduced(-79, 1601))
+
     coefficients(-999, 999, -1000, 1000)
