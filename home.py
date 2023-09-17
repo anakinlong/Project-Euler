@@ -36,7 +36,7 @@ def question(question_number: int) -> str | None:
 
     :param question_number: the integer question number.
 
-    :return: the __doc__ attribute from the corresponding question module. If it doesn't exist, then None.
+    :return: the `__doc__` attribute from the corresponding question module. If it doesn't exist, then None.
     """
     return retrieve_attribute_from_question_module(question_number, "__doc__")
 
@@ -52,6 +52,17 @@ def answer(question_number: int) -> int | None:
     return retrieve_attribute_from_question_module(question_number, "ANSWER")
 
 
+def explanation(question_number: int) -> int | None:
+    """
+    Return the explanation to the answer to a particular question - if the answer doesn't exist, return None.
+
+    :param question_number: the integer question number.
+
+    :return: the `EXPLANATION` constant from the corresponding question module. If it doesn't exist, then None.
+    """
+    return retrieve_attribute_from_question_module(question_number, "EXPLANATION")
+
+
 def all_answers() -> dict[int: int]:
     """
     Return a dictionary mapping all answered questions to their answers.
@@ -61,6 +72,7 @@ def all_answers() -> dict[int: int]:
 
 if __name__ == "__main__":
 
-    print(question(1))
-    print(answer(1))
+    print(question(15))
+    print(answer(15))
+    print(explanation(15))
     print(all_answers())
