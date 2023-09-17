@@ -23,3 +23,20 @@ def euler_totient(n: int):
         product *= 1 - (1 / i)
 
     return product
+
+
+def sum_of_digits(n: int) -> int:
+    """
+    Calculate the sum of the digits of an integer.
+
+    :param n: an integer.
+
+    :return: the sum of its digits.
+    """
+    # Convert to a string and add each digit:
+    digits = str(n)
+    total = 0
+    for digit in digits:
+        total += int(digit)
+
+    return total
