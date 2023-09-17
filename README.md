@@ -32,15 +32,15 @@ The code for each question is in the `questions` directory. These files can be r
 
 ## home.py
 
-`home.py` is a script in which you can directly interact with all the code I have written for the questions I have answered. The code for a each question is located in its own module, which can be called using:
+`home.py` is a script in which you can directly interact with all the code I have written for the questions I have answered. The code for a each question is located in its own module `Q{n}`, where `n` is the question number. For example, to access the functions used in question 1:
 
 ```python
 import questions
 
-questions.Qn.function_from_question()
+questions.Q1.sum_of_multiples([3, 5], range(1, 1000))
 ```
 
-where `n` is the question number.
+
 
 ## lib
 
