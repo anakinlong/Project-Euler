@@ -1,6 +1,20 @@
-'Work out the first ten digits of the sum of the following one-hundred 50-digit numbers.'
+"""
+Work out the first ten digits of the sum of the following one-hundred 50-digit numbers.
+"""
 
-n = '''37107287533902102798797998220837590246510135740250
+import math
+
+try:
+    import lib
+except ModuleNotFoundError:
+    from questions import lib
+
+
+ANSWER = 5537376230
+
+
+NUMBERS_AS_STRING = """
+37107287533902102798797998220837590246510135740250
 46376937677490009712648124896970078050417018260538
 74324986199524741059474233309513058123726617309629
 91942213363574161572522430563301811072406154908250
@@ -99,14 +113,46 @@ n = '''37107287533902102798797998220837590246510135740250
 77158542502016545090413245809786882778948721859617
 72107838435069186155435662884062257473692284509516
 20849603980134001723930671666823555245252804609722
-53503534226472524250874054075591789781264330331690'''
+53503534226472524250874054075591789781264330331690
+"""
 
-def bigSum():
-    total = 0
-    numbers = n.split('\n')
-    for i in numbers:
-        total += int(i)
-    print(int(str(total)[:10]))
+NUMBERS_AS_LIST = list(map(int, NUMBERS_AS_STRING.lstrip("\n").rstrip("\n").split("\n")))
+
+
+def first_n_digits(number: int, n_digits: int) -> int:
+    """
+    Return the integer representation of the first n_digits digits of a number.
+
+    :param number: a number.
+    :param n_digits: how many digits.
+
+    :return: the first n_digits digits of a number.
+    """
+    return int(str(number)[: n_digits])
+
+
+@lib.profiling.profileit()
+def first_n_digits_of_sum(numbers: list[int], n_digits: int) -> int:
+    """
+    Given a list of numbers, find the first n_digits digits of their sum.
+
+    :param numbers: a list of integers.
+    :param n_digits: how many of the first digits of the sum to calculate.
+
+    :return: the first digits of a sum of numbers.
+    """
+    # If we want the first n_digits digits and we have n numbers, then we can just sum the first
+    # n_digits + ceil(log_10(n))
+    # digits of each number, and take the first n_digits digits of that result:
+    digits_needed = n_digits + math.ceil(math.log10(len(numbers)))
+    shorter_numbers = [first_n_digits(number, digits_needed) for number in numbers]
+
+    # Calculate the total, and take the required number of digits:
+    total = sum(shorter_numbers)
+
+    return first_n_digits(total, n_digits)
+
 
 if __name__ == '__main__':
-    bigSum()
+
+    answer = first_n_digits_of_sum(NUMBERS_AS_LIST, 10)
