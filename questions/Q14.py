@@ -57,7 +57,6 @@ def find_chain_length(n: int) -> int:
     return length
 
 
-# TODO store the results of each starting number so we don't repeat work
 @lib.profiling.profileit()
 def find_longest_chain(max_excl: int) -> int:
     """
