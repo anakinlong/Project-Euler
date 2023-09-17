@@ -100,4 +100,4 @@ def counting_sundays(start_day: str, start_year: int, end_year: int):
 
 if __name__ == '__main__':
 
-    counting_sundays("TUE", 1901, 2000)
+    answer = counting_sundays("TUE", 1901, 2000)

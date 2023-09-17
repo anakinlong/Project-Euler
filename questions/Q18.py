@@ -76,4 +76,4 @@ def max_adjacent_sum(triangle: str) -> int:
 
 if __name__ == '__main__':
 
-    max_adjacent_sum(TRIANGLE)
+    answer = max_adjacent_sum(TRIANGLE)
