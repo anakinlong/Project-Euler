@@ -2,6 +2,10 @@
 Things relating to factors of integers.
 """
 
+from typing import Callable
+
+from . import generic_python
+
 
 def factors(n: int) -> list[int]:
     """
@@ -79,25 +83,99 @@ def sum_of_proper_divisors(n: int) -> list[int]:
     return total
 
 
-def amicable_numbers(max_excl: int) -> list[int]:
+def amicable(n: int) -> bool:
     """
-    Return a list of all the amicable numbers below a specified value.
+    Check whether n is an amicable number or not.
 
-    :param max_excl: the maximum (exclusive) value of each amicable number.
+    :param n: an integer.
 
-    :return: a list of all the amicable numbers below max_excl.
+    :return: True if n is amicable, otherwise False.
     """
-    # Starting with an empty list, check whether each number is amicable and add it if it is:
-    all_amicable_numbers = []
-    for n in range(1, max_excl):
-        divisor_sum_n = sum_of_proper_divisors(n)
-        # Check whether n is amicable:
-        # the sum of its divisors must not equal itself (otherwise it would be a perfect number), and
-        # the sum of the divisors of the sum of its divisors must equal itself:
-        if divisor_sum_n != n and sum_of_proper_divisors(divisor_sum_n) == n:
-            all_amicable_numbers.append(n)
+    divisor_sum_n = sum_of_proper_divisors(n)
 
-    return all_amicable_numbers
+    return divisor_sum_n != n and sum_of_proper_divisors(divisor_sum_n) == n
+
+
+def abundant(n: int) -> bool:
+    """
+    Check whether n is an abundant number or not.
+
+    :param n: an integer.
+
+    :return: True if n is abundant, otherwise False.
+    """
+    return sum_of_proper_divisors(n) > n
+
+
+def deficient(n: int) -> bool:
+    """
+    Check whether n is a deficient number or not.
+
+    :param n: an integer.
+
+    :return: True if n is deficient, otherwise False.
+    """
+    return sum_of_proper_divisors(n) < n
+
+
+def perfect(n: int) -> bool:
+    """
+    Check whether n is a perfect number or not.
+
+    :param n: an integer.
+
+    :return: True if n is perfect, otherwise False.
+    """
+    return sum_of_proper_divisors(n) == n
+
+
+find_numbers_docstring = generic_python.docstrings.generate_docstring_decorator(
+    """
+    Return a list of all the {_name} numbers below a specified value.
+
+    :param max_excl: the maximum (exclusive) value of each number.
+
+    :return: a list of all the {_name} numbers below max_excl.
+    """
+)
+
+
+def generate_docstring():
+    def inner(obj):
+        obj.__doc__ = """
+            <div>asdfasdasdasdasd</div>
+            """
+        return obj
+    return inner
+
+
+def find_numbers(condition: Callable[[int], bool], name: str) -> list[int]:
+    """
+    Return a list of all the numbers below a specified value which meet a certain condition.
+
+    :param condition: the function which decides whether each number meets the required conditions.
+    :param name: the name of the type of number we are finding, e.g. "amicable".
+
+    :return: a list of all the numbers below max_excl which meet a certain condition.
+    """
+    # TODO get the docstring to work
+    @find_numbers_docstring(_name=name)
+    def func(max_excl: int) -> list[int]:
+        # Starting with an empty list, check whether each number meets the condition and add it if it is:
+        all_numbers = []
+        for n in range(1, max_excl):
+            if condition(n):
+                all_numbers.append(n)
+
+        return all_numbers
+
+    return func
+
+
+amicable_numbers = find_numbers(amicable, "amicable")
+abundant_numbers = find_numbers(abundant, "abundant")
+deficient_numbers = find_numbers(deficient, "deficient")
+perfect_numbers = find_numbers(perfect, "perfect")
 
 
 def sum_of_amicable_numbers(max_excl: int) -> list[int]:

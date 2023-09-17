@@ -3,26 +3,26 @@ Things relating to object docstrings.
 """
 
 from functools import wraps
-from typing import Any
 
 
-def generate_docstring_decorator(base_docstring: str):
+def generate_docstring_decorator(docstring_template: str):
     """
-    Create a decorator which assigns a given docstring to the object.
+    Create a decorator which assigns a docstring template to an object.
     """
 
-    def format_docstring(*args, **kwargs):
+    def format_docstring(*docstring_args, **docstring_kwargs):
         """
-        Format the base docstring to be specific to this object.
+        Format the docstring template to be specific to this object.
         """
 
-        def decorator(func):
+        def decorator(obj):
 
-            @wraps(func)
-            def wrapper(obj: Any):
-                obj.__doc__ = base_docstring.format(*args, **kwargs)
+            @wraps(obj)
+            def wrapper(*args, **kwargs):
 
-                return obj
+                return obj(*args, **kwargs)
+
+            wrapper.__doc__ = docstring_template.format(*docstring_args, **docstring_kwargs)
 
             return wrapper
 
