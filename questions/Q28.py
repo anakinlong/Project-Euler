@@ -1,19 +1,38 @@
-'''Starting with the number 1 and moving to the right in a clockwise direction a 5 by 5 spiral is formed.
-What is the sum of the numbers on the diagonals in a 1001 by 1001 spiral formed in the same way?'''
-import numpy
+"""
+Starting with the number 1 and moving to the right in a clockwise direction a 5 by 5 spiral is formed as follows:
 
-def createSpiral(n):
-    spiralArray = numpy.zeros([n, n])
-    spiralArray[int((n-1)/2)][int((n-1)/2)] = 1
-    print(spiralArray)
-    # cba
+21 22 23 24 25
+20  7  8  9 10
+19  6  1  2 11
+18  5  4  3 12
+17 16 15 14 13
+
+It can be verified that the sum of the numbers on the diagonals is 101.
+
+What is the sum of the numbers on the diagonals in a 1001 by 1001 spiral formed in the same way?
+"""
+
+try:
+    import lib
+except ModuleNotFoundError:
+    from questions import lib
+
+
+ANSWER = "Answer goes here"
+
+
+@lib.profiling.profileit()
+def main() -> int:
+    """
+    """
+
 
 def addDiagonals(n):
     # Top right diagonal:
     TRsum = 0
     for i in range(1, int((n+1)/2)):
         TRsum += ((2 * i + 1) ** 2)
-    
+
     # Top left diagonal:
     TLsum = 0
     for i in range(1, int((n+1)/2)):
@@ -23,7 +42,7 @@ def addDiagonals(n):
     BRsum = 0
     for i in range(1, int((n+1)/2)):
         BRsum += ((2 * i + 1) ** 2 - 4 * i)
-    
+
     # Bottom left diagonal:
     BLsum = 0
     for i in range(1, int((n+1)/2)):
@@ -32,6 +51,7 @@ def addDiagonals(n):
     total = 1 + TRsum + TLsum + BRsum + BLsum
     print(total)
 
+
 if __name__ == '__main__':
-    #createSpiral(5)
-    addDiagonals(1001) 
+
+    addDiagonals(1001)
