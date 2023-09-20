@@ -30,6 +30,7 @@ def profileit(
     # monotonic is better for long periods, perf_counter is better for short:
     current_time = monotonic if long_time else perf_counter
 
+    # TODO figure out why the original function signature doesn't show up on pylance - I thought wraps did this?
     def decorator(func: Callable[[Any], Any]):
         # Get the signature of the decorated function:
         signature = inspect.signature(func)

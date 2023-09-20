@@ -43,7 +43,7 @@ def nth_fibonacci_looping(n: int, a_1: int, a_2: int) -> int:
         return a_1
     elif n == 2:
         return a_2
-    # Otherwise, we will have to use these :
+    # Otherwise, we will have to use these to calculate the subsequent terms:
     else:
         previous_term = a_1
         current_term = a_2

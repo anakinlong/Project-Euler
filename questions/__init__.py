@@ -25,6 +25,9 @@ __all__ = [
 # Now when we import everything, those modules will be imported:
 from . import *  # NOQA
 
+# Import the lib library too:
+from . import lib  # NOQA
+
 # Create a list of the question numbers which have files by removing the Q and turning the rest into an integer.
 # We ignore Q0 since that is a template file:
 QUESTION_NUMBERS = [int(module[1:]) for module in __all__ if int(module[1:]) != 0]
