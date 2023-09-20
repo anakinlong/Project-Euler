@@ -56,7 +56,8 @@ def cycle_length(denominator: int, base: int) -> int:
 
     :return: the cycle length of the fraction.
     """
-    for n in lib.factors.factors(euler_totient(denominator)):
+    totient = euler_totient(denominator)
+    for n in lib.factors.factors(totient) + [totient]:
         if base ** n % denominator == 1:
 
             return n

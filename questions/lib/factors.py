@@ -9,15 +9,15 @@ from . import generic_python
 
 def factors(n: int) -> list[int]:
     """
-    Return a list of all the factors of n (including 1 and itself).
+    Return a list of all the proper factors of n (including 1 but not itself).
 
     :param n: an integer.
 
     :return: the proper factors of n.
     """
     # TODO use something better than lists, since you don't know how long the list will be
-    # Every number has proper factors of 1 and itself:
-    all_factors = [1, int(n)]
+    # Every number has a proper factor of 1:
+    all_factors = [1]
 
     # Now we loop through every integer between 1 and the square root of n to prevent repeats:
     for k in range(2, int(n ** (1 / 2) + 1)):
@@ -37,14 +37,14 @@ def factors(n: int) -> list[int]:
 
 def count_factors(n: int) -> int:
     """
-    Count how many factors n has (including 1 and itself).
+    Count how many proper factors n has (including 1 but not itself).
 
     :param n: an integer.
 
     :return: the number of proper factors of n.
     """
-    # Every number has proper factors of 1 and itself:
-    n_factors = 2
+    # Every number has a proper factors of 1:
+    n_factors = 1
 
     # Now we loop through every integer between 1 and the square root of n to prevent repeats:
     for k in range(2, int(n ** (1 / 2) + 1)):
@@ -140,15 +140,6 @@ find_numbers_docstring = generic_python.docstrings.generate_docstring_decorator(
 )
 
 
-def generate_docstring():
-    def inner(obj):
-        obj.__doc__ = """
-            <div>asdfasdasdasdasd</div>
-            """
-        return obj
-    return inner
-
-
 def find_numbers(condition: Callable[[int], bool], name: str) -> list[int]:
     """
     Return a list of all the numbers below a specified value which meet a certain condition.
@@ -158,7 +149,6 @@ def find_numbers(condition: Callable[[int], bool], name: str) -> list[int]:
 
     :return: a list of all the numbers below max_excl which meet a certain condition.
     """
-    # TODO get the docstring to work
     @find_numbers_docstring(_name=name)
     def func(max_excl: int) -> list[int]:
         # Starting with an empty list, check whether each number meets the condition and add it if it is:
@@ -176,24 +166,3 @@ amicable_numbers = find_numbers(amicable, "amicable")
 abundant_numbers = find_numbers(abundant, "abundant")
 deficient_numbers = find_numbers(deficient, "deficient")
 perfect_numbers = find_numbers(perfect, "perfect")
-
-
-def sum_of_amicable_numbers(max_excl: int) -> list[int]:
-    """
-    Return a list of all the amicable numbers below a specified value.
-
-    :param max_excl: the maximum (exclusive) value of each amicable number.
-
-    :return: a list of all the amicable numbers below max_excl.
-    """
-    # Starting with 1, check whether each number is amicable and add tot the total if it is:
-    total = 0
-    for n in range(1, max_excl):
-        divisor_sum_n = sum_of_proper_divisors(n)
-        # Check whether n is amicable:
-        # the sum of its divisors must not equal itself (otherwise it would be a perfect number), and
-        # the sum of the divisors of the sum of its divisors must equal itself:
-        if divisor_sum_n != n and sum_of_proper_divisors(divisor_sum_n) == n:
-            total += n
-
-    return total
