@@ -1,37 +1,72 @@
-'''There are eight coins in general circulation: 1p, 2p, 5p, 10p, 20p, 50p, £1 (100p), and £2 (200p).
-How many different ways can £2 be made using any number of coins?'''
+"""
+In the United Kingdom the currency is made up of pound (£) and pence (p). There are eight coins in general circulation:
 
-def dumb_method():
-    ways = 0
-    total = 200
-    for a in range(1 + 1):
-        remaining = total - a * 200
-        for b in range(int(remaining / 100) + 1):
-            remaining = total - a * 200 - b * 100
-            for c in range(int(remaining / 50) + 1):
-                remaining = total - a * 200 - b * 100 - c * 50
-                for d in range(int(remaining / 20) + 1):
-                    remaining = total - a * 200 - b * 100 - c * 50 - d * 20
-                    for e in range(int(remaining / 10) + 1):
-                        remaining = total - a * 200 - b * 100 - c * 50 - d * 20 - e * 10
-                        for f in range(int(remaining / 5) + 1):
-                            remaining = total - a * 200 - b * 100 - c * 50 - d * 20 - e * 10 - f * 5
-                            for g in range(int(remaining / 2) + 1):
-                                ways += 1
-    print(ways)
+1p, 2p, 5p, 10p, 20p, 50p, £1 (100p), and £2 (200p).
 
-def n_ways(total, coins):
-    if not coins: 
+It is possible to make £2 in the following way:
+
+1 x £1 + 1 x 50p + 2 x 20p + 1 x 5p + 1 x 2p + 3 x 1p
+
+How many different ways can £2 be made using any number of coins?
+"""
+
+try:
+    import lib
+except ModuleNotFoundError:
+    from questions import lib
+
+
+ANSWER = 73682
+
+
+def n_ways(total: int, coin_values: list[int]) -> int:
+    """
+    Calculate how many different ways you can sum any number of the given coin values to make the given total.
+
+    This function is just here so that the profiler isn't applied to a recursive function.
+
+    :param total: the total value each sum has to equal.
+    :param coin_values: a list of the value of each coin that can be used in the sum.
+
+    :return: the total number of different sums.
+    """
+    # If there are no coin values, then there are zero different ways of summing them to the total:
+    if not coin_values:
+
         return 0
-    c, coins = coins[0], coins[1:]
+
+    # Otherwise, we extract the smallest coin in the list:
+    coin, coin_values = coin_values[0], coin_values[1:]
     count = 0
-    if total % c == 0:
+
+    # TODO remember why % works here
+    if total % coin == 0:
         count += 1
-    for amount in range(0, total, c):
-        count += n_ways(total - amount, coins)
+
+    # For the possible number of times we could add this coin to the current total:
+    for amount in range(0, total, coin):
+        # Count the number of ways we can add other coins to that total to equal the target total:
+        count += n_ways(total - amount, coin_values)
+
     return count
 
+
+@lib.profiling.profileit()
+def main(total: int, coin_values: list[int]) -> int:
+    """
+    Calculate how many different ways you can sum any number of the given coin values to make the given total.
+
+    :param total: the total value each sum has to equal.
+    :param coin_values: a list of the value of each coin that can be used in the sum.
+
+    :return: the total number of different sums.
+    """
+    # Sorting the coin values from largest to smallest improves speed:
+    coin_values.sort(reverse=True)
+
+    return n_ways(total, coin_values)
+
+
 if __name__ == '__main__':
-    #dumb_method()
-    #print(2 * 3 * 5 * 11 * 21 * 41 * 101 * 201)
-    print(n_ways(200, [1, 2, 5, 10, 20, 50, 100, 200]))
+
+    answer = main(200, [1, 2, 5, 10, 20, 50, 100, 200])
