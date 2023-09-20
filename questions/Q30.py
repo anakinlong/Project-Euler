@@ -59,7 +59,7 @@ def find_maximum_search_value(power: int) -> int:
         n_digits += 1
 
 
-# TODO extremely slow (~30s)
+# TODO extremely slow (~13s)
 @lib.profiling.profileit()
 def power_search(power: int) -> int:
     """
