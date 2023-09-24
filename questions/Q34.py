@@ -14,29 +14,52 @@ except ModuleNotFoundError:
     from questions import lib
 
 
-ANSWER = "Answer goes here"
+ANSWER = 40730
 
 
-# Since 9!x7 < 9999999, the numbers have at most 7 digits.
+EXPLANATION = """
+Since 9!x7 < 9999999, the numbers have at most 7 digits. So we can set an upper bound of 1e7.
+"""
+
+# Pre-calculate the factorials of the numbers 0-9:
+FACTORIAL = {n: math.factorial(n) for n in range(0, 10)}
 
 
-def digitFactorial(n):
+def digit_factorial_sum(n: int) -> int:
+    """
+    Calculate the sum of the factorial of each of the digits of an integer.
+
+    :param n: an integer.
+
+    :return: the sum of the factorial of each digit of n.
+    """
     digits = str(n)
     total = 0
     for digit in digits:
-        total += math.factorial(int(digit))
+        total += FACTORIAL[int(digit)]
+
     return total
 
 
+# TODO could refine this seach a bit, since we currently search all numbers
 @lib.profiling.profileit()
-def curiousCheck(maxExcl):
-    curious = []
-    for n in range(1, maxExcl):
-        if digitFactorial(n) == n:
-            curious.append(n)
-    return curious
+def curiousCheck(min_incl: int, max_excl: int) -> int:
+    """
+    Calculate the sum of all numbers for which the sum of the factorial of each of their digits equals themselves.
+
+    :param min_incl: the minumum (inclusive) search value of the numbers.
+    :param max_excl: the maximum (exclusive) seach value of the numbers.
+
+    :return: the sum of all the numbers which have this property.
+    """
+    total = 0
+    for n in range(min_incl, max_excl):
+        if digit_factorial_sum(n) == n:
+            total += n
+
+    return total
 
 
 if __name__ == '__main__':
 
-    answer = curiousCheck(10000000)
+    answer = curiousCheck(3, int(1e7))
