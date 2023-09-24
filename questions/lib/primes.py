@@ -59,6 +59,33 @@ def prime_sieve(n: int) -> list[int]:
     return [k for k, is_prime in primes.items() if is_prime]
 
 
+def prime_sieve_dict(n: int) -> dict[int, bool]:
+    """
+    Create a dictionary mapping all integers less than or equal to n to whether they are prime or not.
+
+    :param n: an integer.
+
+    :return: a dictionary mapping all integers less than or equal to n to whether they are prime or not.
+    """
+    # We use a dictionary mapping all numbers to a bool of whether they are prime, since appending to a list would be
+    # slow. This way we can have a dictionary of known size and then decide whether each number is prime.
+    # Start off by setting all the numbers to True:
+    primes = {k: True for k in range(2, n + 1)}
+
+    # Now we loop through each prime, starting from the smallest, and set all their multiples to False:
+    for k in primes:
+        # We only want to do all this stuff for prime numbers, since that is sufficient to cover all multiples.
+        # There is also no point doing this for any number larger than n / 2, since there won't be any multiples
+        # smaller than n:
+        if primes[k] and (k <= n / 2):
+            multiples = range(2 * k, n + 1, k)
+            # Set all the multiples to be not prime:
+            for f in multiples:
+                primes[f] = False
+
+    return primes
+
+
 def prime_factors(n: int) -> list[int]:
     """
     Returns a list of all the prime factors of n (with repeats).
