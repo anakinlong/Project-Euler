@@ -43,7 +43,7 @@ def digit_factorial_sum(n: int) -> int:
 
 # TODO could refine this seach a bit, since we currently search all numbers
 @lib.profiling.profileit()
-def curiousCheck(min_incl: int, max_excl: int) -> int:
+def find_sum_of_curious_numbers(min_incl: int, max_excl: int) -> int:
     """
     Calculate the sum of all numbers for which the sum of the factorial of each of their digits equals themselves.
 
@@ -62,4 +62,4 @@ def curiousCheck(min_incl: int, max_excl: int) -> int:
 
 if __name__ == '__main__':
 
-    answer = curiousCheck(3, int(1e7))
+    answer = find_sum_of_curious_numbers(3, int(1e7))
