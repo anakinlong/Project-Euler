@@ -56,25 +56,19 @@ def fraction_is_simplifiable(numerator: int, denominator: int) -> bool:
     return False
 
 
-def greatest_common_factor(numbers: list[int]) -> int:
+def greatest_common_divisor(a: int, b: int) -> int:
     """
-    Find the greatest common factor of a list of integers.
+    Find the greatest common factor of a two integers.
 
-    :param numbers: a list of integers.
+    :param a: an integer.
+    :param b: an integer.
 
-    :return: the greatest common factor.
+    :return: the greatest common factor of a and b.
     """
-    # Create a dictionary of each prime to the list of exponents from each n in numbers:
-    all_prime_exponents = {n: lib.primes.prime_exponents(n) for n in numbers}
-    # The set of all prime numbers in the prime factors of the given numbers:
-    all_primes = {prime for prime_exponents in all_prime_exponents.values() for prime in prime_exponents}
+    while b != 0:
+        a, b = b, a % b
 
-    # A dictionary mapping each prime to its maximum exponent from all of the numbers:
-    prime_to_min_exponent = {
-        prime: min([all_prime_exponents[n].get(prime, 0) for n in numbers]) for prime in all_primes
-    }
-
-    return math.prod([prime ** min_exponent for prime, min_exponent in prime_to_min_exponent.items()])
+    return a
 
 
 @lib.profiling.profileit()
@@ -101,7 +95,7 @@ def fraction_finder(min_incl: int, max_excl: int) -> int:
     final_numerator = math.prod(numerators)
     final_denominator = math.prod(denominators)
 
-    return int(final_denominator / greatest_common_factor([final_numerator, final_denominator]))
+    return int(final_denominator / greatest_common_divisor(final_numerator, final_denominator))
 
 
 if __name__ == '__main__':

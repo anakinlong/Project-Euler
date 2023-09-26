@@ -151,24 +151,3 @@ def lowest_common_multiple(numbers: list[int]) -> int:
     }
 
     return math.prod([prime ** max_exponent for prime, max_exponent in prime_to_max_exponent.items()])
-
-
-def greatest_common_factor(numbers: list[int]) -> int:
-    """
-    Find the greatest common factor of a list of integers.
-
-    :param numbers: a list of integers.
-
-    :return: the greatest common factor.
-    """
-    # Create a dictionary of each prime to the list of exponents from each n in numbers:
-    all_prime_exponents = {n: prime_exponents(n) for n in numbers}
-    # The set of all prime numbers in the prime factors of the given numbers:
-    all_primes = {prime for prime_exponents in all_prime_exponents.values() for prime in prime_exponents}
-
-    # A dictionary mapping each prime to its maximum exponent from all of the numbers:
-    prime_to_min_exponent = {
-        prime: min([all_prime_exponents[n].get(prime, 0) for n in numbers]) for prime in all_primes
-    }
-
-    return math.prod([prime ** min_exponent for prime, min_exponent in prime_to_min_exponent.items()])
