@@ -83,6 +83,33 @@ def sum_of_proper_divisors(n: int) -> list[int]:
     return total
 
 
+def greatest_common_divisor(a: int, b: int) -> int:
+    """
+    Find the greatest common factor of a two integers.
+
+    :param a: an integer.
+    :param b: an integer.
+
+    :return: the greatest common factor of a and b.
+    """
+    while b != 0:
+        a, b = b, a % b
+
+    return a
+
+
+def coprime(a: int, b: int) -> bool:
+    """
+    Decide whether two integers are coprime - that is, if they share no factors.
+
+    :param a: an integer.
+    :param b: an integer.
+
+    :return: True if a and b are coprime, otherwise False.
+    """
+    return greatest_common_divisor(a, b) == 1
+
+
 def amicable(n: int) -> bool:
     """
     Check whether n is an amicable number or not.

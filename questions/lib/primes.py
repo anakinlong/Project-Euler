@@ -59,6 +59,33 @@ def prime_sieve(n: int) -> list[int]:
     return [k for k, is_prime in primes.items() if is_prime]
 
 
+def prime_sieve_dict(n: int) -> dict[int, bool]:
+    """
+    Create a dictionary mapping all integers less than or equal to n to whether they are prime or not.
+
+    :param n: an integer.
+
+    :return: a dictionary mapping all integers less than or equal to n to whether they are prime or not.
+    """
+    # We use a dictionary mapping all numbers to a bool of whether they are prime, since appending to a list would be
+    # slow. This way we can have a dictionary of known size and then decide whether each number is prime.
+    # Start off by setting all the numbers to True:
+    primes = {k: True for k in range(2, n + 1)}
+
+    # Now we loop through each prime, starting from the smallest, and set all their multiples to False:
+    for k in primes:
+        # We only want to do all this stuff for prime numbers, since that is sufficient to cover all multiples.
+        # There is also no point doing this for any number larger than n / 2, since there won't be any multiples
+        # smaller than n:
+        if primes[k] and (k <= n / 2):
+            multiples = range(2 * k, n + 1, k)
+            # Set all the multiples to be not prime:
+            for f in multiples:
+                primes[f] = False
+
+    return primes
+
+
 def prime_factors(n: int) -> list[int]:
     """
     Returns a list of all the prime factors of n (with repeats).
@@ -118,9 +145,9 @@ def lowest_common_multiple(numbers: list[int]) -> int:
     # The set of all prime numbers in the prime factors of the given numbers:
     all_primes = {prime for prime_exponents in all_prime_exponents.values() for prime in prime_exponents}
 
-    # A dictionary mapping each prime to a list of its exponents from each number:
-    prime_to_exponents = {prime: [all_prime_exponents[n].get(prime, 0) for n in numbers] for prime in all_primes}
-    # A dictionary mapping each prime to its maximum exponent from the dictionary above:
-    prime_to_max_exponent = {prime: max(exponents) for prime, exponents in prime_to_exponents.items()}
+    # A dictionary mapping each prime to its minimum exponent from all of the numbers:
+    prime_to_max_exponent = {
+        prime: max([all_prime_exponents[n].get(prime, 0) for n in numbers]) for prime in all_primes
+    }
 
     return math.prod([prime ** max_exponent for prime, max_exponent in prime_to_max_exponent.items()])
